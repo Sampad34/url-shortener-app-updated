@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="titleDesc">
+  <title id="titleDesc">Shortify Icon Logo</title>
+  <desc>Minimal rounded square icon with gradient background and stylized S-arrow for Shortify</desc>
+
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#6C5CE7"></stop>
+      <stop offset="1" stop-color="#00C2FF"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square -->
+  <rect x="8" y="8" width="144" height="144" rx="32" fill="url(#grad)"></rect>
+
+  <!-- Stylized S with arrow -->
+  <path d="M55 60c8-12 42-12 50 0 5 7 3 18-4 22-9 5-25 6-34 12-9 6-6 18 2 24 10 7 28 7 38-2" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+
+  <!-- Arrow head -->
+  <path d="M100 108 l18 -6 -6 18 Z" fill="#fff"></path>
+</svg>

@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: url-shortener-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        value: mongodb+srv://sampadrb:LZYMWcLrXzfq34j8@cluster0.4bbsml9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: z7Xh9pQmL2wR4vYtK6bN8cJdF3gS5a
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      - key: COOKIE_SECRET
+        value: G9r$2kLm8#QwV7tYp4Zx6NcB1sH0f@
+
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALLBACK_URL
+        value: https://url-shortener-shortify-app.onrender.com/api/auth/google/callback
+      - key: FRONTEND_URL
+        value: https://url-shortify-app.netlify.app
