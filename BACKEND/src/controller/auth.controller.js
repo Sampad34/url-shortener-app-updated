@@ -37,7 +37,7 @@ const googleCallback = tryCatch(async (req, res) => {
   const token = authService.generateToken(user);
 
   // Redirect back to frontend with token + user info
-  const frontendUrl = process.env.FRONTEND_URL ;
+  const frontendUrl = process.env.FRONTEND_URL.replace(/\/+$/, "");
   res.redirect(
     `${frontendUrl}/oauth-success?token=${token}&name=${encodeURIComponent(
       user.name
