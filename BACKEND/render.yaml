@@ -22,6 +22,6 @@ services:
       - key: GOOGLE_CLIENT_SECRET
         sync: false
       - key: GOOGLE_CALLBACK_URL
-        value: https://url-shortener-shortify-app.onrender.com/api/auth/google/callback
+        value: https://url-shortener-app-updated-1.onrender.com/api/auth/google/callback
       - key: FRONTEND_URL
-        value: https://url-shortify-app.netlify.app
+        value: https://shortify-url-new.netlify.app/
