@@ -21,7 +21,15 @@ const app = express();
 // -----------------------------
 // Middleware
 // -----------------------------
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // for local dev
+      "https://shortify-url-new.netlify.app", // your Netlify frontend
+    ],
+    credentials: true,
+  })
+);
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,8 +39,8 @@ app.use(passport.initialize());
 // -----------------------------
 // API Routes
 // -----------------------------
-app.use("/api/auth", authRoutes);     // → /api/auth/register, /api/auth/login
-app.use("/api/users", userRoutes);    // → /api/users/profile, /api/users/urls
+app.use("/api/auth", authRoutes); // → /api/auth/register, /api/auth/login
+app.use("/api/users", userRoutes); // → /api/users/profile, /api/users/urls
 app.use("/api/urls", shortUrlRoutes); // → /api/urls/me, /api/urls/:id
 
 // Public redirect route (no auth)
