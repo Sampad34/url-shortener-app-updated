@@ -23,5 +23,13 @@ export default function OAuthSuccess() {
     }
   }, [searchParams, navigate, dispatch]);
 
-  return <p>Logging you in with Google...</p>;
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 px-4 sm:px-6">
+      <div className="text-center bg-white p-6 sm:p-8 rounded-xl shadow-md max-w-md w-full">
+        <p className="text-base sm:text-lg text-gray-700 font-medium">
+          Logging you in with <span className="font-semibold text-blue-600">Google</span>...
+        </p>
+      </div>
+    </div>
+  );
 }

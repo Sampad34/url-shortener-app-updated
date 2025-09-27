@@ -27,33 +27,49 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={submit} className="bg-white rounded shadow p-6 max-w-md w-full mx-auto">
-      <h3 className="text-lg font-semibold mb-4">Create account</h3>
+    <form
+      onSubmit={submit}
+      className="bg-white rounded shadow p-4 sm:p-6 w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto"
+    >
+      <h3 className="text-lg sm:text-xl font-semibold mb-4 text-center sm:text-left">
+        Create account
+      </h3>
+
+      {/* Name */}
       <label className="block text-sm text-gray-600">Name</label>
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
         type="text"
-        className="w-full border rounded px-3 py-2 mb-3"
+        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base"
       />
+
+      {/* Email */}
       <label className="block text-sm text-gray-600">Email</label>
       <input
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
         type="email"
-        className="w-full border rounded px-3 py-2 mb-3"
+        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base"
       />
+
+      {/* Password */}
       <label className="block text-sm text-gray-600">Password</label>
       <input
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
         type="password"
-        className="w-full border rounded px-3 py-2 mb-4"
+        className="w-full border rounded px-3 py-2 mb-4 text-sm sm:text-base"
       />
-      <button type="submit" className="w-full bg-green-600 text-white py-2 rounded">
+
+      {/* Button */}
+      <button
+        type="submit"
+        className="w-full bg-green-600 text-white py-2 sm:py-2.5 rounded text-sm sm:text-base"
+      >
         Create account
       </button>
     </form>

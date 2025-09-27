@@ -15,7 +15,6 @@ export default function DashboardPage() {
     try {
       const { data } = await getMyUrls();
 
-      // ✅ Always unwrap response consistently
       if (data?.success && Array.isArray(data.urls)) {
         setUrls(data.urls);
       } else {
@@ -50,25 +49,27 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Greeting + Create Form */}
-        <div className="bg-white p-6 rounded-2xl shadow">
-          <h2 className="text-lg font-semibold">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow">
+          <h2 className="text-base sm:text-lg font-semibold">
             Hi, {user?.name || user?.email}
           </h2>
-          <p className="text-sm text-gray-500">Create short links below</p>
-          <div className="mt-4">
+          <p className="text-xs sm:text-sm text-gray-500">
+            Create short links below
+          </p>
+          <div className="mt-3 sm:mt-4">
             <UrlForm onCreated={loadUrls} />
           </div>
         </div>
 
         {/* User URLs Section */}
         <div className="space-y-3">
-          <h3 className="text-md font-medium">Your URLs</h3>
+          <h3 className="text-sm sm:text-md font-medium">Your URLs</h3>
 
           {loading ? (
-            <div className="p-6 bg-white rounded-2xl shadow text-center">
+            <div className="p-4 sm:p-6 bg-white rounded-2xl shadow text-center text-sm sm:text-base">
               Loading…
             </div>
           ) : urls.length > 0 ? (
@@ -78,7 +79,7 @@ export default function DashboardPage() {
               ))}
             </div>
           ) : (
-            <div className="p-6 bg-white rounded-2xl shadow text-center">
+            <div className="p-4 sm:p-6 bg-white rounded-2xl shadow text-center text-sm sm:text-base">
               No shortened URLs yet.
             </div>
           )}
