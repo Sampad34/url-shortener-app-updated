@@ -49,7 +49,7 @@ export default function UrlForm({ onCreated }) {
         <button
           type="submit"
           disabled={loading}
-          className="bg-indigo-600 text-white px-4 py-2 sm:py-2.5 rounded-lg hover:bg-indigo-700 disabled:opacity-60 transition-colors mt-2 sm:mt-0"
+          className="bg-indigo-600 text-white px-4 py-2 sm:py-2.5 rounded-lg hover:bg-indigo-700 disabled:opacity-60 transition-colors mt-2 sm:mt-0 cursor-pointer"
         >
           {loading ? "Shortening…" : "Shorten"}
         </button>

@@ -38,7 +38,7 @@ export default function LoginForm() {
         onChange={(e) => setEmail(e.target.value)}
         required
         type="email"
-        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base"
+        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base outline-none"
       />
 
       <label className="block text-xs sm:text-sm text-gray-600 mb-1">Password</label>
@@ -47,12 +47,12 @@ export default function LoginForm() {
         onChange={(e) => setPassword(e.target.value)}
         required
         type="password"
-        className="w-full border rounded px-3 py-2 mb-4 text-sm sm:text-base"
+        className="w-full border rounded px-3 py-2 mb-4 text-sm sm:text-base outline-none"
       />
 
       <button
         type="submit"
-        className="w-full bg-indigo-600 text-white py-2 rounded text-sm sm:text-base hover:bg-indigo-700 transition"
+        className="w-full bg-indigo-600 text-white py-2 rounded text-sm sm:text-base hover:bg-indigo-700 transition cursor-pointer"
       >
         Sign in
       </button>

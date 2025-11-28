@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { registerUser } from "../api/user.api.js";
 import { useDispatch } from "react-redux";
-import { authStart, authSuccess, authFailure } from "../store/slice/authSlice.js";
+import {
+  authStart,
+  authSuccess,
+  authFailure,
+} from "../store/slice/authSlice.js";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
@@ -42,7 +46,7 @@ export default function RegisterForm() {
         onChange={(e) => setName(e.target.value)}
         required
         type="text"
-        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base"
+        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base outline-none"
       />
 
       {/* Email */}
@@ -52,7 +56,7 @@ export default function RegisterForm() {
         onChange={(e) => setEmail(e.target.value)}
         required
         type="email"
-        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base"
+        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base outline-none"
       />
 
       {/* Password */}
@@ -62,13 +66,13 @@ export default function RegisterForm() {
         onChange={(e) => setPassword(e.target.value)}
         required
         type="password"
-        className="w-full border rounded px-3 py-2 mb-4 text-sm sm:text-base"
+        className="w-full border rounded px-3 py-2 mb-4 text-sm sm:text-base outline-none"
       />
 
       {/* Button */}
       <button
         type="submit"
-        className="w-full bg-green-600 text-white py-2 sm:py-2.5 rounded text-sm sm:text-base"
+        className="w-full bg-green-600 text-white py-2 sm:py-2.5 rounded text-sm sm:text-base cursor-pointer"
       >
         Create account
       </button>
