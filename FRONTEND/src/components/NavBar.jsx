@@ -17,7 +17,10 @@ export default function NavBar() {
     <nav className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
         {/* Logo + Title */}
-        <Link to="/" className="flex flex-col sm:flex-row sm:items-baseline sm:gap-3 text-center sm:text-left">
+        <Link
+          to="/"
+          className="flex flex-col sm:flex-row sm:items-baseline sm:gap-3 text-center sm:text-left"
+        >
           <div className="flex items-center justify-center gap-2">
             <img
               src={shortifyLogo}
@@ -26,7 +29,9 @@ export default function NavBar() {
             />
             <div className="text-xl font-bold text-indigo-600">Shortify</div>
           </div>
-          <div className="text-sm text-gray-500 sm:mt-0 mt-1">URL Shortener</div>
+          <div className="text-sm text-gray-500 sm:mt-0 mt-1">
+            URL Shortener
+          </div>
         </Link>
 
         {/* Navigation Links */}
@@ -50,7 +55,10 @@ export default function NavBar() {
               </button>
             </>
           ) : (
-            <Link to="/auth" className="text-sm text-indigo-600 font-medium">
+            <Link
+              to="/auth"
+              className="text-sm  text-gray-600 hover:text-indigo-600 font-medium"
+            >
               Sign in
             </Link>
           )}
