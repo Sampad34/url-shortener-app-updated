@@ -4,11 +4,11 @@ import { QRCodeCanvas } from "qrcode.react";
 import axios from "axios";
 
 export default function UserUrl({ url, onDeleted }) {
-  if (!url) return null;
-
+  
   const [showQR, setShowQR] = useState(false);
   const [qrDownloadUrl, setQrDownloadUrl] = useState(null);
-
+  
+  if (!url) return null;
   const shortLink = shortUrlFor(url.shortId);
 
   const handleFetchQr = async () => {
