@@ -26,7 +26,7 @@ const createShortUrl = tryCatch(async (req, res) => {
   });
 
   // Use FRONTEND_URL from env
-  const shortUrl = `${process.env.FRONTEND_URL}/r/${newShort.shortId}`;
+  const shortUrl = `${process.env.FRONTEND_URL}/${newShort.shortId}`;
 
   res.status(201).json({
     success: true,
