@@ -18,7 +18,7 @@ router.get("/me", requireAuth, getUserUrls);       // Get logged-in user's URLs
 router.delete("/:id", requireAuth, deleteUrl);     // Delete a URL owned by the user
 
 // ---------- Public Route ----------
-router.get("/:code", redirectToOriginal);          // Redirect shortId → full URL
 router.get("/:id/qr", getQrCode); // <-- New QR route
+router.get("/:code", redirectToOriginal);          // Redirect shortId → full URL
 
 module.exports = router;

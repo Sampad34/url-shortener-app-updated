@@ -21,14 +21,14 @@ const login = tryCatch(async (req, res) => {
   res.json({ success: true, ...result });
 });
 
-const profile = tryCatch(async (req, res) => {
-  const userId = req.user && req.user._id;
-  if (!userId) {
-    return res.status(401).json({ success: false, message: "Not authenticated" });
-  }
-  const user = await userDao.findById(userId);
-  res.json({ success: true, user });
-});
+// const profile = tryCatch(async (req, res) => {
+//   const userId = req.user && req.user._id;
+//   if (!userId) {
+//     return res.status(401).json({ success: false, message: "Not authenticated" });
+//   }
+//   const user = await userDao.findById(userId);
+//   res.json({ success: true, user });
+// });
 
 const googleCallback = tryCatch(async (req, res) => {
   const user = req.user; // set by Passport
@@ -48,6 +48,6 @@ const googleCallback = tryCatch(async (req, res) => {
 module.exports = {
   register,
   login,
-  profile,
+  
   googleCallback,
 };

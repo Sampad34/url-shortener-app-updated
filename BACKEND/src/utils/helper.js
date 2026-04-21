@@ -24,8 +24,8 @@ function isValidUrl(url) {
  * Helper: build the short URL (e.g. http://localhost:5000/r/:code)
  */
 function shortUrlFor(code) {
-  const apiBase = process.env.VITE_API_BASE_URL || "http://localhost:5000";
-  return `${apiBase}/r/${code}`;
+  const apiBase = process.env.BACKEND_URL || "http://localhost:5000";
+  return `${apiBase}/${code}`;
 }
 
 /**

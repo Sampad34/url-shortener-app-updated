@@ -28,7 +28,7 @@ app.use(
       "https://shortix2.netlify.app", // your Netlify frontend
     ],
     credentials: true,
-  })
+  }),
 );
 app.use(morgan("dev"));
 app.use(express.json());
@@ -43,20 +43,18 @@ app.use("/api/auth", authRoutes); // → /api/auth/register, /api/auth/login
 app.use("/api/users", userRoutes); // → /api/users/profile, /api/users/urls
 app.use("/api/urls", shortUrlRoutes); // → /api/urls/me, /api/urls/:id
 
-
-
 // Health check
 app.get("/health", (req, res) => {
   res.json({ ok: true, ts: new Date().toISOString() });
 });
 
-// Public redirect route (no auth)
-app.get("/:code", redirectToOriginal);
-
 // Root welcome
 app.get("/", (req, res) => {
   res.send("🚀 URL Shortener API is running...");
 });
+
+// Public redirect route (no auth)
+app.get("/:code", redirectToOriginal);
 
 // -----------------------------
 // Global Error Handler
@@ -70,7 +68,6 @@ async function start() {
   try {
     await connectMongo();
     app.listen(port, () => {
-      console.log(`✅ MongoDB connected`);
       console.log(`🚀 Server listening at http://localhost:${port}`);
     });
   } catch (err) {

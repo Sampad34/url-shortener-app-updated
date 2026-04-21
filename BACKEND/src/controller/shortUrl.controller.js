@@ -1,6 +1,11 @@
 const QRCode = require("qrcode");
 const shortUrlDao = require("../dao/shortUrl.dao");
-const { generateShortCode, isValidUrl,shortUrlFor } = require("../utils/helper");
+const {
+  generateShortCode,
+  isValidUrl,
+  shortUrlFor,
+} = require("../utils/helper");
+const shortUrlService = require("../services/shortUrl.service");
 const tryCatch = require("../utils/tryCatchWrapper");
 
 // Create a new short URL
@@ -8,25 +13,19 @@ const createShortUrl = tryCatch(async (req, res) => {
   const { fullUrl } = req.body;
 
   if (!fullUrl || !isValidUrl(fullUrl)) {
-    return res.status(400).json({ success: false, message: "Valid fullUrl is required" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Valid fullUrl is required" });
   }
 
-  // Generate unique shortId
-  let shortId;
-  while (true) {
-    shortId = generateShortCode(7);
-    const exists = await shortUrlDao.existsByShortId(shortId);
-    if (!exists) break;
-  }
-
-  const newShort = await shortUrlDao.createShortUrl({
-    user: req.user._id,
+  // Create short URL record and get the generated shortId
+  const newShort = await shortUrlService.createShortUrl({
     fullUrl,
-    shortId,
+    userId: req.user._id,
   });
 
-  // Use FRONTEND_URL from env
-  const shortUrl = `${process.env.FRONTEND_URL}/${newShort.shortId}`;
+  // Use BACKEND_URL from env
+  const shortUrl = `${process.env.BACKEND_URL}/${newShort.shortId}`;
 
   res.status(201).json({
     success: true,
@@ -74,20 +73,18 @@ const redirectToOriginal = tryCatch(async (req, res) => {
   return res.redirect(record.fullUrl);
 });
 
-
-
-
-
 // Generate QR Code for a short URL
 const getQrCode = tryCatch(async (req, res) => {
   const { id } = req.params;
   const url = await shortUrlDao.findByShortId(id);
 
   if (!url) {
-    return res.status(404).json({ success: false, message: "Short URL not found" });
+    return res
+      .status(404)
+      .json({ success: false, message: "Short URL not found" });
   }
 
-  const shortLink = `${process.env.FRONTEND_URL}/r/${url.shortId}`;
+  const shortLink = `${process.env.BACKEND_URL}/${url.shortId}`;
 
   try {
     const qrDataUrl = await QRCode.toDataURL(shortLink);
@@ -97,8 +94,6 @@ const getQrCode = tryCatch(async (req, res) => {
     res.status(500).json({ success: false, message: "QR generation failed" });
   }
 });
-
-
 
 module.exports = {
   createShortUrl,
