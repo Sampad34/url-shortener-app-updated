@@ -22,11 +22,11 @@ export function isValidUrl(url) {
 }
 
 /**
- * Helper: build the short URL (e.g. http://localhost:5000/r/:code)
+ * Helper: build the short URL (e.g. http://localhost:5000/:code)
  */
 export function shortUrlFor(code) {
-  const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-  return `${apiBase}/r/${code}`;
+  const appBase = import.meta.env.VITE_APP_BASE_URL || "http://localhost:3000";
+  return `${appBase}/${code}`;
 }
 
 /**
