@@ -43,13 +43,15 @@ app.use("/api/auth", authRoutes); // → /api/auth/register, /api/auth/login
 app.use("/api/users", userRoutes); // → /api/users/profile, /api/users/urls
 app.use("/api/urls", shortUrlRoutes); // → /api/urls/me, /api/urls/:id
 
-// Public redirect route (no auth)
-app.get("/r/:code", redirectToOriginal);
+
 
 // Health check
 app.get("/health", (req, res) => {
   res.json({ ok: true, ts: new Date().toISOString() });
 });
+
+// Public redirect route (no auth)
+app.get("/:code", redirectToOriginal);
 
 // Root welcome
 app.get("/", (req, res) => {
