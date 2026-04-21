@@ -53,7 +53,7 @@ app.get("/health", (req, res) => {
 
 // Root welcome
 app.get("/", (req, res) => {
-  res.send("🚀 URL Shortener API is running");
+  res.send("🚀 URL Shortener API is running...");
 });
 
 // -----------------------------

@@ -17,20 +17,12 @@ export default function NavBar() {
     <nav className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
         {/* Logo + Title */}
-        <Link
-          to="/"
-          className="flex flex-col sm:flex-row sm:items-baseline sm:gap-3 text-center sm:text-left"
-        >
-          <div className="flex items-center justify-center gap-2">
-            <img
-              src={shortifyLogo}
-              alt="Shortify Logo"
-              className="h-6 w-6 mt-1"
-            />
-            <div className="text-xl font-bold text-indigo-600">Shortify</div>
-          </div>
-          <div className="text-sm text-gray-500 sm:mt-0 mt-1">
-            URL Shortener
+        <Link to="/" className="flex items-center gap-3 text-left">
+          <img src={shortifyLogo} alt="Shortify Logo" className="h-6 w-6" />
+
+          <div className="flex items-baseline gap-2">
+            <span className="text-xl font-bold text-indigo-600">Shortify</span>
+            <span className="text-sm text-gray-500">URL Shortener</span>
           </div>
         </Link>
 
