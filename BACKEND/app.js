@@ -25,7 +25,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173", // for local dev
-      "https://shortify-url-new.netlify.app", // your Netlify frontend
+      "https://shortix2.netlify.app", // your Netlify frontend
     ],
     credentials: true,
   })
