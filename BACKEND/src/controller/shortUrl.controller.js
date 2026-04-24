@@ -1,16 +1,13 @@
 const QRCode = require("qrcode");
 const shortUrlDao = require("../dao/shortUrl.dao");
-const {
-  generateShortCode,
-  isValidUrl,
-  shortUrlFor,
-} = require("../utils/helper");
+const { isValidUrl } = require("../utils/helper");
 const shortUrlService = require("../services/shortUrl.service");
+const analyticsService = require("../services/analytics.service");
 const tryCatch = require("../utils/tryCatchWrapper");
 
 // Create a new short URL
 const createShortUrl = tryCatch(async (req, res) => {
-  const { fullUrl } = req.body;
+  const { fullUrl, customCode } = req.body;
 
   if (!fullUrl || !isValidUrl(fullUrl)) {
     return res
@@ -22,6 +19,7 @@ const createShortUrl = tryCatch(async (req, res) => {
   const newShort = await shortUrlService.createShortUrl({
     fullUrl,
     userId: req.user._id,
+    customCode,
   });
 
   // Use BACKEND_URL from env
@@ -61,22 +59,23 @@ const deleteUrl = tryCatch(async (req, res) => {
 // Public redirect
 const redirectToOriginal = tryCatch(async (req, res) => {
   const { code } = req.params;
-  const record = await shortUrlDao.findByShortId(code);
+
+  const record = await shortUrlService.resolveShortId(code);
 
   if (!record) {
     return res.status(404).send("Short URL not found");
   }
 
-  // Increment clicks
-  await shortUrlDao.incrementClicks(record._id);
+  //  Track analytics (NON-BLOCKING)
+  analyticsService.trackEvent(req, code);
 
   return res.redirect(record.fullUrl);
 });
 
 // Generate QR Code for a short URL
 const getQrCode = tryCatch(async (req, res) => {
-  const { id } = req.params;
-  const url = await shortUrlDao.findByShortId(id);
+  const { code } = req.params;
+  const url = await shortUrlDao.findByShortId(code);
 
   if (!url) {
     return res

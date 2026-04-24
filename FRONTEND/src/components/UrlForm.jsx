@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createShortUrl } from "../api/shortUrl.api.js";
+import { createShortUrl } from "../api/user.api.js";
 import { copyToClipboard, shortUrlFor } from "../utils/helper.js";
 import { QRCodeCanvas } from "qrcode.react";
 
 export default function UrlForm({ onCreated }) {
   const [fullUrl, setFullUrl] = useState("");
+  const [customCode, setCustomCode] = useState("");
+  const [showCustom, setShowCustom] = useState(false);
   const [loading, setLoading] = useState(false);
   const [created, setCreated] = useState(null);
+  const [error, setError] = useState("");
 
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     if (!user) {
       navigate("/auth");
@@ -23,13 +27,21 @@ export default function UrlForm({ onCreated }) {
 
     setLoading(true);
     try {
-      const { data } = await createShortUrl({ fullUrl });
+      const payload = { fullUrl };
+      if (customCode && showCustom) {
+        payload.customCode = customCode;
+      }
+      
+      const { data } = await createShortUrl(payload);
       setCreated(data.url);
       setFullUrl("");
+      setCustomCode("");
       onCreated?.();
     } catch (err) {
       console.error("❌ Failed to shorten URL:", err);
-      alert(err?.response?.data?.message || "Failed to shorten URL");
+      const message = err?.response?.data?.message || "Failed to shorten URL";
+      setError(message);
+      alert(message);
     } finally {
       setLoading(false);
     }
@@ -37,44 +49,69 @@ export default function UrlForm({ onCreated }) {
 
   return (
     <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md">
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+      <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="url"
           required
           placeholder="https://example.com/long/link"
           value={fullUrl}
           onChange={(e) => setFullUrl(e.target.value)}
-          className="flex-1 border rounded-lg px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          className="w-full border rounded-lg px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-indigo-600 text-white px-4 py-2 sm:py-2.5 rounded-lg hover:bg-indigo-700 disabled:opacity-60 transition-colors mt-2 sm:mt-0 cursor-pointer"
-        >
-          {loading ? "Shortening…" : "Shorten"}
-        </button>
+        
+        {showCustom && (
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-500">{shortUrlFor("")}</span>
+            <input
+              type="text"
+              placeholder="custom-code"
+              value={customCode}
+              onChange={(e) => setCustomCode(e.target.value.toLowerCase())}
+              className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+          </div>
+        )}
+        
+        <div className="flex gap-2">
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60 transition-colors cursor-pointer"
+          >
+            {loading ? "Shortening…" : "Shorten"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowCustom(!showCustom)}
+            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 cursor-pointer"
+          >
+            {showCustom ? "Cancel" : "Custom"}
+          </button>
+        </div>
+        
+        {error && <p className="text-red-500 text-sm">{error}</p>}
       </form>
 
       {created && (
-        <div className="mt-3 p-3 border-l-4 border-indigo-300 bg-indigo-50 rounded text-sm sm:text-base">
-          <div className="text-gray-600">Short URL</div>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-1 gap-2 sm:gap-0">
+        <div className="mt-4 p-3 border-l-4 border-indigo-300 bg-indigo-50 rounded">
+          <div className="text-gray-600 text-sm">Short URL</div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-1 gap-2">
             <a
               href={shortUrlFor(created.shortId)}
               target="_blank"
               rel="noreferrer"
-              className="text-indigo-700 font-medium hover:underline break-all"
+              className="text-indigo-700 font-medium hover:underline break-all text-sm"
             >
               {shortUrlFor(created.shortId)}
             </a>
             <button
               onClick={() => copyToClipboard(shortUrlFor(created.shortId))}
-              className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
+              className="px-3 py-1 border rounded text-sm hover:bg-gray-100 cursor-pointer"
             >
               Copy
             </button>
           </div>
-          <div className="mt-2 flex justify-center sm:justify-start">
+          <div className="mt-3 flex justify-center sm:justify-start">
             <QRCodeCanvas value={shortUrlFor(created.shortId)} size={128} />
           </div>
         </div>

@@ -7,7 +7,7 @@ async function createUser(data) {
 }
 
 async function findByEmail(email) {
-  return User.findOne({ email }).exec();
+  return User.findOne({ email }).select('+passwordHash').exec();
 }
 
 async function findById(id) {

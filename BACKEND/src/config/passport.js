@@ -1,27 +1,29 @@
 // src/config/passport.js
-require("dotenv").config();
+
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const User = require("../models/user.model"); // we'll assume this model exists
+const User = require("../models/user.model");
 
-// ensure env loaded if needed
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } =
-  process.env;
+const {
+  googleClientId,
+  googleClientSecret,
+  googleCallbackUrl,
+} = require("./config");
 
-if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_CALLBACK_URL) {
+if (!googleClientId || !googleClientSecret || !googleCallbackUrl) {
   console.warn(
-    "Google OAuth env vars missing; Google login will fail if used."
+    "⚠️ Google OAuth env vars missing; Google login will fail if used.",
   );
 }
 
-console.log("Google Callback URL:", GOOGLE_CALLBACK_URL);
+console.log("✅ Google Callback URL:", googleCallbackUrl);
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: GOOGLE_CALLBACK_URL,
+      clientID: googleClientId,
+      clientSecret: googleClientSecret,
+      callbackURL: googleCallbackUrl,
     },
     // verify callback
     async (accessToken, refreshToken, profile, done) => {
@@ -53,8 +55,8 @@ passport.use(
       } catch (err) {
         return done(err, null);
       }
-    }
-  )
+    },
+  ),
 );
 
 module.exports = passport;

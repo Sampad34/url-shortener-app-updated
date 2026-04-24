@@ -19,7 +19,7 @@ async function incrementClicks(id) {
   return ShortUrl.findByIdAndUpdate(
     id,
     { $inc: { clicks: 1 } },
-    { new: true }
+    { new: true },
   ).exec();
 }
 
@@ -38,7 +38,8 @@ async function deleteById(id, userId) {
 
 // Check if shortId exists
 async function existsByShortId(shortId) {
-  return ShortUrl.findOne({ shortId }).exec();
+  const doc = await ShortUrl.findOne({ shortId }).select("_id").exec();
+  return !!doc; // ✅ Return boolean
 }
 
 module.exports = {

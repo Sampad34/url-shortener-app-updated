@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser } from "../api/user.api.js";
+import { loginUser } from "../api/auth.api.js";
 import { useDispatch } from "react-redux";
 import { authStart, authSuccess, authFailure } from "../store/slice/authSlice.js";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,8 @@ export default function LoginForm() {
     dispatch(authStart());
     try {
       const res = await loginUser({ email, password });
-      const { token, user } = res.data;
-      dispatch(authSuccess({ token, user }));
+      const { accessToken, refreshToken, user } = res.data;
+      dispatch(authSuccess({ token: accessToken, refreshToken, user }));
       navigate("/dashboard");
     } catch (err) {
       const msg = err?.response?.data?.message || "Login failed";
@@ -26,10 +26,7 @@ export default function LoginForm() {
   }
 
   return (
-    <form
-      onSubmit={submit}
-      className="bg-white rounded shadow p-4 sm:p-6 max-w-sm sm:max-w-md w-full mx-auto"
-    >
+    <form onSubmit={submit} className="bg-white rounded shadow p-4 sm:p-6 max-w-sm sm:max-w-md w-full mx-auto">
       <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Sign in</h3>
 
       <label className="block text-xs sm:text-sm text-gray-600 mb-1">Email</label>
@@ -38,7 +35,7 @@ export default function LoginForm() {
         onChange={(e) => setEmail(e.target.value)}
         required
         type="email"
-        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base outline-none"
+        className="w-full border rounded px-3 py-2 mb-3 text-sm sm:text-base outline-none focus:ring-2 focus:ring-indigo-400"
       />
 
       <label className="block text-xs sm:text-sm text-gray-600 mb-1">Password</label>
@@ -47,7 +44,7 @@ export default function LoginForm() {
         onChange={(e) => setPassword(e.target.value)}
         required
         type="password"
-        className="w-full border rounded px-3 py-2 mb-4 text-sm sm:text-base outline-none"
+        className="w-full border rounded px-3 py-2 mb-4 text-sm sm:text-base outline-none focus:ring-2 focus:ring-indigo-400"
       />
 
       <button

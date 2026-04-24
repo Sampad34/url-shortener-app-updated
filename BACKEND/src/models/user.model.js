@@ -9,11 +9,13 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     trim: true,
+    index: true,
   },
-  passwordHash: { type: String }, // not required for Google OAuth users
+  passwordHash: { type: String, select: false }, // not required for Google OAuth users
   createdAt: { type: Date, default: Date.now },
   googleId: { type: String, index: true, sparse: true },
   authProvider: { type: String, enum: ["local", "google"], default: "local" },
 });
 
-module.exports = mongoose.model("User", userSchema);
+//
+module.exports = mongoose.models.User || mongoose.model("User", userSchema); //prevents overwritemodel error

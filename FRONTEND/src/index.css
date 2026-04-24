@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+
+
+
+
+
+@keyframes fade-out {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.animate-fade-out {
+  animation: fade-out 2s ease-out forwards;
+}
+
+/* Better focus styles */
+input:focus, button:focus {
+  outline: none;
+}

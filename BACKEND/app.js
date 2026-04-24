@@ -1,4 +1,3 @@
-// app.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -15,12 +14,23 @@ const authRoutes = require("./src/routes/auth.route");
 const userRoutes = require("./src/routes/user.route");
 const shortUrlRoutes = require("./src/routes/shortUrl.route");
 const { redirectToOriginal } = require("./src/controller/shortUrl.controller");
+const analyticsRoutes = require("./src/routes/analytics.route");
+const createRateLimiter = require("./src/middleware/rateLimit.middleware");
+
+const globalLimiter = createRateLimiter({
+  limit: 100,
+  windowSec: 60,
+  prefix: "global",
+});
 
 const app = express();
 
 // -----------------------------
-// Middleware
+// global Middleware
 // -----------------------------
+
+app.use(globalLimiter);
+
 app.use(
   cors({
     origin: [
@@ -36,14 +46,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(passport.initialize());
 
-// -----------------------------
-// API Routes
-// -----------------------------
-app.use("/api/auth", authRoutes); // → /api/auth/register, /api/auth/login
-app.use("/api/users", userRoutes); // → /api/users/profile, /api/users/urls
-app.use("/api/urls", shortUrlRoutes); // → /api/urls/me, /api/urls/:id
-
-// Health check
+//health check route
 app.get("/health", (req, res) => {
   res.json({ ok: true, ts: new Date().toISOString() });
 });
@@ -53,7 +56,15 @@ app.get("/", (req, res) => {
   res.send("🚀 URL Shortener API is running...");
 });
 
-// Public redirect route (no auth)
+// -----------------------------
+// API Routes
+// -----------------------------
+app.use("/api/auth", authRoutes); // → /api/auth/register, /api/auth/login
+app.use("/api/users", userRoutes); // → /api/users/profile, /api/users/urls
+app.use("/api/urls", shortUrlRoutes); // → /api/urls/me, /api/urls/:id
+app.use("/api/analytics", analyticsRoutes); // → /api/analytics/:shortId
+
+// Public redirect route (no auth) (MUST BE LAST - it's a catch-all for /:code)
 app.get("/:code", redirectToOriginal);
 
 // -----------------------------
@@ -67,6 +78,7 @@ app.use(errorHandler);
 async function start() {
   try {
     await connectMongo();
+
     app.listen(port, () => {
       console.log(`🚀 Server listening at http://localhost:${port}`);
     });

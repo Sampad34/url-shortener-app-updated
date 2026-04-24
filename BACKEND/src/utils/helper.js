@@ -3,7 +3,8 @@
  * Not cryptographically secure but good enough for a shortener.
  */
 function generateShortCode(length = 7) {
-  const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const chars =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let result = "";
   for (let i = 0; i < length; i++) {
     result += chars[Math.floor(Math.random() * chars.length)];
@@ -31,27 +32,46 @@ function shortUrlFor(code) {
 /**
  * Helper: copy text to clipboard
  */
-async function copyToClipboard(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    alert("Copied!");
-  } catch {
-    alert("Failed to copy");
-  }
-}
+// async function copyToClipboard(text) {
+//   try {
+//     await navigator.clipboard.writeText(text);
+//     alert("Copied!");
+//   } catch {
+//     alert("Failed to copy");
+//   }
+// }
 
 /**
  * Helper: format date nicely
  */
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleString(); // example: "9/16/2025, 8:35:12 PM"
+// function formatDate(dateString) {
+//   const date = new Date(dateString);
+//   return date.toLocaleString(); // example: "9/16/2025, 8:35:12 PM"
+// }
+
+function isValidCustomCode(code) {
+  const regex = /^[a-zA-Z0-9_-]{4,20}$/; // safe URL chars
+  return regex.test(code);
+}
+
+const RESERVED_CODES = [
+  "api",
+  "auth",
+  "login",
+  "register",
+  "admin",
+  "health",
+  "qr",
+];
+
+function isReservedCode(code) {
+  return RESERVED_CODES.includes(code.toLowerCase());
 }
 
 module.exports = {
   generateShortCode,
   isValidUrl,
   shortUrlFor,
-  copyToClipboard,
-  formatDate,
+  isValidCustomCode,
+  isReservedCode,
 };

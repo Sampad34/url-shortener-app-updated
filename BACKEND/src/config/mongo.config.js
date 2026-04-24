@@ -29,7 +29,9 @@ async function dropOldIndex() {
     const conn = mongoose.connection;
 
     // Check if collection exists
-    const collections = await conn.db.listCollections({ name: "shorturls" }).toArray();
+    const collections = await conn.db
+      .listCollections({ name: "shorturls" })
+      .toArray();
     if (collections.length === 0) {
       console.log("⚠️ No shorturls collection found, skipping index drop");
       return;
@@ -37,11 +39,16 @@ async function dropOldIndex() {
 
     // In earlier code some indexes used different names (shortCode_1 etc).
     // Try to drop the likely legacy names but ignore failures.
-    const possibleIndexNames = ["shortCode_1", "shortId_1", "shortid_1", "shortID_1"];
+    const possibleIndexNames = [
+      "shortCode_1",
+      "shortId_1",
+      "shortid_1",
+      "shortID_1",
+    ];
 
     for (const idxName of possibleIndexNames) {
       try {
-        await conn.collection("shorturls").dropIndex(idxName);
+        await conn.db.collection("shorturls").dropIndex(idxName);
         console.log(`✅ Dropped old index ${idxName}`);
       } catch (err) {
         // ignore index not found or other non-fatal errors
