@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createShortUrl } from "../api/user.api.js";
+import { createShortUrl } from "../api/shortUrl.api.js";
 import { copyToClipboard, shortUrlFor } from "../utils/helper.js";
 import { QRCodeCanvas } from "qrcode.react";
 
