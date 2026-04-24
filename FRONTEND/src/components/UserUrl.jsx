@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { shortUrlFor, formatDate, copyToClipboard } from "../utils/helper.js";
 import { QRCodeCanvas } from "qrcode.react";
-import { getUrlAnalytics } from "../api/user.api.js";
+import { getUrlAnalytics } from "../api/shortUrl.api.js";
 
 export default function UserUrl({ url, onDeleted }) {
   const [showQR, setShowQR] = useState(false);
