@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { getMyUrls, deleteUrl as deleteShortUrl } from "../api/user.api.js";
+import { getMyUrls, deleteUrl as deleteShortUrl } from "../api/shortUrl.api.js";
 import UrlForm from "../components/UrlForm.jsx";
 import UserUrl from "../components/UserUrl.jsx";
 
