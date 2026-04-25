@@ -31,7 +31,7 @@ export default function NavBar() {
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-xl font-bold text-indigo-600 group-hover:text-indigo-700 transition">
-              Shortify
+              Shortix
             </span>
             <span className="text-sm text-gray-500 hidden sm:inline">
               URL Shortener
