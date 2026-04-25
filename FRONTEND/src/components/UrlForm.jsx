@@ -48,7 +48,7 @@ export default function UrlForm({ onCreated }) {
   };
 
   return (
-    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md">
+    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md w-full max-w-full overflow-hidden">
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="url"
@@ -60,19 +60,21 @@ export default function UrlForm({ onCreated }) {
         />
         
         {showCustom && (
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500">{shortUrlFor("")}</span>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
+            <span className="text-sm text-gray-500 break-words sm:whitespace-nowrap">
+              {shortUrlFor("")}
+            </span>
             <input
               type="text"
               placeholder="custom-code"
               value={customCode}
               onChange={(e) => setCustomCode(e.target.value.toLowerCase())}
-              className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="flex-1 min-w-0 w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>
         )}
         
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <button
             type="submit"
             disabled={loading}
@@ -93,7 +95,7 @@ export default function UrlForm({ onCreated }) {
       </form>
 
       {created && (
-        <div className="mt-4 p-3 border-l-4 border-indigo-300 bg-indigo-50 rounded">
+        <div className="mt-4 p-3 border-l-4 border-indigo-300 bg-indigo-50 rounded overflow-hidden">
           <div className="text-gray-600 text-sm">Short URL</div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-1 gap-2">
             <a
@@ -106,13 +108,15 @@ export default function UrlForm({ onCreated }) {
             </a>
             <button
               onClick={() => copyToClipboard(shortUrlFor(created.shortId))}
-              className="px-3 py-1 border rounded text-sm hover:bg-gray-100 cursor-pointer"
+              className="px-3 py-1 border rounded text-sm hover:bg-gray-100 cursor-pointer whitespace-nowrap"
             >
               Copy
             </button>
           </div>
-          <div className="mt-3 flex justify-center sm:justify-start">
-            <QRCodeCanvas value={shortUrlFor(created.shortId)} size={128} />
+          <div className="mt-3 flex justify-center sm:justify-start overflow-auto">
+            <div className="flex-shrink-0">
+              <QRCodeCanvas value={shortUrlFor(created.shortId)} size={128} />
+            </div>
           </div>
         </div>
       )}
